@@ -24,9 +24,8 @@ import (
 func main() {
 	veleroplugin.NewServer(veleroplugin.NewLogger()).
 		RegisterBackupItemAction("backup-plugin", newBackupPlugin).
-		RegisterObjectStore("file", newFileObjectStore).
-		RegisterRestoreItemAction("restore-plugin", newMyRestorePlugin).
-		RegisterBlockStore("example-blockstore", newNoOpBlockStore).
+		RegisterBackupItemAction("is-backup-plugin", newImageStreamBackupPlugin).
+		RegisterRestoreItemAction("restore-plugin", newRestorePlugin).
 		Serve()
 }
 
@@ -38,10 +37,14 @@ func newFileObjectStore(logger logrus.FieldLogger) (interface{}, error) {
 	return &FileObjectStore{log: logger}, nil
 }
 
-func newMyRestorePlugin(logger logrus.FieldLogger) (interface{}, error) {
+func newRestorePlugin(logger logrus.FieldLogger) (interface{}, error) {
 	return &MyRestorePlugin{log: logger}, nil
 }
 
 func newNoOpBlockStore(logger logrus.FieldLogger) (interface{}, error) {
 	return &NoOpBlockStore{FieldLogger: logger}, nil
+}
+
+func newImageStreamBackupPlugin(logger logrus.FieldLogger) (interface{}, error) {
+	return &ImageStreamBackupPlugin{log: logger}, nil
 }

@@ -25,16 +25,16 @@ import (
 )
 
 // MyRestorePlugin is a restore item action plugin for Velero
-type MyRestorePlugin struct {
+type ImageStreamRestorePlugin struct {
 	log logrus.FieldLogger
 }
 
 // AppliesTo returns a restore.ResourceSelector that applies to everything
-func (p *MyRestorePlugin) AppliesTo() (restore.ResourceSelector, error) {
+func (p *ImageStreamRestorePlugin) AppliesTo() (restore.ResourceSelector, error) {
 	return restore.ResourceSelector{}, nil
 }
 
-func (p *MyRestorePlugin) Execute(item runtime.Unstructured, restore *v1.Restore) (runtime.Unstructured, error, error) {
+func (p *ImageStreamRestorePlugin) Execute(item runtime.Unstructured, restore *v1.Restore) (runtime.Unstructured, error, error) {
 	p.log.Info("Hello from OCP RestorePlugin!")
 
 	metadata, err := meta.Accessor(item)

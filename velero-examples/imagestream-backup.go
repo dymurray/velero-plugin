@@ -1,5 +1,5 @@
 /*
-Copyright 2018 the Heptio Ark contributors.
+Copyright 2017 the Heptio Ark contributors.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,25 +17,30 @@ limitations under the License.
 package main
 
 import (
-	"github.com/heptio/velero/pkg/apis/velero/v1"
-	"github.com/heptio/velero/pkg/restore"
 	"github.com/sirupsen/logrus"
+
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/runtime"
+
+	"github.com/heptio/velero/pkg/apis/velero/v1"
+	"github.com/heptio/velero/pkg/backup"
 )
 
-// MyRestorePlugin is a restore item action plugin for Velero
-type MyRestorePlugin struct {
+// BackupPlugin is a backup item action plugin for Heptio Ark.
+type ImageStreamBackupPlugin struct {
 	log logrus.FieldLogger
 }
 
-// AppliesTo returns a restore.ResourceSelector that applies to everything
-func (p *MyRestorePlugin) AppliesTo() (restore.ResourceSelector, error) {
-	return restore.ResourceSelector{}, nil
+// AppliesTo returns a backup.ResourceSelector that applies to everything.
+func (p *ImageStreamBackupPlugin) AppliesTo() (backup.ResourceSelector, error) {
+	return backup.ResourceSelector{
+		IncludedResources: []string{"imagestreams"},
+	}, nil
 }
 
-func (p *MyRestorePlugin) Execute(item runtime.Unstructured, restore *v1.Restore) (runtime.Unstructured, error, error) {
-	p.log.Info("Hello from OCP RestorePlugin!")
+// Execute sets a custom annotation on the item being backed up.
+func (p *ImageStreamBackupPlugin) Execute(item runtime.Unstructured, backup *v1.Backup) (runtime.Unstructured, []backup.ResourceIdentifier, error) {
+	p.log.Info("Hello from Imagestream backup plugin!!")
 
 	metadata, err := meta.Accessor(item)
 	if err != nil {
@@ -47,9 +52,11 @@ func (p *MyRestorePlugin) Execute(item runtime.Unstructured, restore *v1.Restore
 		annotations = make(map[string]string)
 	}
 
-	annotations["openshift.io/my-restore-plugin"] = "1"
+	annotations["openshift.io/imagestream-plugin"] = "1"
 
 	metadata.SetAnnotations(annotations)
+
+	// Get associated image and export to scratch location
 
 	return item, nil, nil
 }

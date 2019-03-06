@@ -38,7 +38,7 @@ func (p *BackupPlugin) AppliesTo() (backup.ResourceSelector, error) {
 
 // Execute sets a custom annotation on the item being backed up.
 func (p *BackupPlugin) Execute(item runtime.Unstructured, backup *v1.Backup) (runtime.Unstructured, []backup.ResourceIdentifier, error) {
-	p.log.Info("Hello from BackupPlugin!")
+	p.log.Info("Hello from OCP BackupPlugin!")
 
 	metadata, err := meta.Accessor(item)
 	if err != nil {
@@ -50,7 +50,7 @@ func (p *BackupPlugin) Execute(item runtime.Unstructured, backup *v1.Backup) (ru
 		annotations = make(map[string]string)
 	}
 
-	annotations["velero.io/my-plugin"] = "1"
+	annotations["openshift.io/my-plugin"] = "1"
 
 	metadata.SetAnnotations(annotations)
 
