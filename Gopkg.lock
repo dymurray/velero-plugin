@@ -310,22 +310,6 @@
   revision = "f2b4162afba35581b6d4a50d3b8f34e33c144682"
 
 [[projects]]
-  digest = "1:86ac3c9b38875890539d687e4ed0e673c1a4889613358d9f434b312738f70866"
-  name = "github.com/kubernetes-incubator/service-catalog"
-  packages = [
-    "pkg/apis/servicecatalog",
-    "pkg/apis/servicecatalog/v1beta1",
-    "pkg/apis/settings",
-    "pkg/apis/settings/v1alpha1",
-    "pkg/client/clientset_generated/clientset/scheme",
-    "pkg/client/clientset_generated/clientset/typed/servicecatalog/v1beta1",
-    "pkg/filter",
-  ]
-  pruneopts = "NUT"
-  revision = "afc0fa995bcda135419adb760f83b770d41d9284"
-  version = "v0.1.41"
-
-[[projects]]
   branch = "master"
   digest = "1:18b773b92ac82a451c1276bd2776c1e55ce057ee202691ab33c8d6690efcc048"
   name = "github.com/mitchellh/go-testing-interface"
@@ -733,15 +717,9 @@
     "github.com/heptio/velero/pkg/plugin",
     "github.com/heptio/velero/pkg/restore",
     "github.com/heptio/velero/pkg/util/collections",
-    "github.com/kubernetes-incubator/service-catalog/pkg/apis/servicecatalog/v1beta1",
-    "github.com/kubernetes-incubator/service-catalog/pkg/client/clientset_generated/clientset/typed/servicecatalog/v1beta1",
-    "github.com/pkg/errors",
     "github.com/sirupsen/logrus",
-    "k8s.io/apimachinery/pkg/api/errors",
     "k8s.io/apimachinery/pkg/api/meta",
-    "k8s.io/apimachinery/pkg/apis/meta/v1",
     "k8s.io/apimachinery/pkg/runtime",
-    "k8s.io/client-go/rest",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

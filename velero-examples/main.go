@@ -26,7 +26,6 @@ func main() {
 		RegisterBackupItemAction("backup-plugin", newBackupPlugin).
 		RegisterObjectStore("file", newFileObjectStore).
 		RegisterRestoreItemAction("restore-plugin", newMyRestorePlugin).
-		RegisterRestoreItemAction("ownerref-plugin", newOwnerRefPlugin).
 		RegisterBlockStore("example-blockstore", newNoOpBlockStore).
 		Serve()
 }
@@ -45,8 +44,4 @@ func newMyRestorePlugin(logger logrus.FieldLogger) (interface{}, error) {
 
 func newNoOpBlockStore(logger logrus.FieldLogger) (interface{}, error) {
 	return &NoOpBlockStore{FieldLogger: logger}, nil
-}
-
-func newOwnerRefPlugin(logger logrus.FieldLogger) (interface{}, error) {
-	return &SetOwnerReference{Log: logger}, nil
 }
