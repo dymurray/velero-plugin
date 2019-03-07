@@ -14,11 +14,11 @@
 
 BINS = $(wildcard velero-*)
 
-REPO ?= github.com/heptio/velero-plugin-example
+REPO ?= github.com/fusor/ocp-velero-plugin
 
 BUILD_IMAGE ?= gcr.io/heptio-images/golang:1.9-alpine3.6
 
-IMAGE ?= gcr.io/heptio-images/velero-plugin-example
+IMAGE ?= docker.io/fusor/ocp-velero-plugin
 
 ARCH ?= amd64
 
