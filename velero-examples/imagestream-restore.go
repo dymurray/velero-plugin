@@ -35,7 +35,7 @@ func (p *ImageStreamRestorePlugin) AppliesTo() (restore.ResourceSelector, error)
 }
 
 func (p *ImageStreamRestorePlugin) Execute(item runtime.Unstructured, restore *v1.Restore) (runtime.Unstructured, error, error) {
-	p.log.Info("Hello from OCP RestorePlugin!")
+	p.log.Info("Hello from ImageStream RestorePlugin!")
 
 	metadata, err := meta.Accessor(item)
 	if err != nil {
@@ -47,7 +47,7 @@ func (p *ImageStreamRestorePlugin) Execute(item runtime.Unstructured, restore *v
 		annotations = make(map[string]string)
 	}
 
-	annotations["openshift.io/my-restore-plugin"] = "1"
+	annotations["openshift.io/imagestream-restore-plugin"] = "1"
 
 	metadata.SetAnnotations(annotations)
 

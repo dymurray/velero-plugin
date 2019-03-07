@@ -17,10 +17,17 @@ limitations under the License.
 package main
 
 import (
+	"fmt"
+	"github.com/mitchellh/mapstructure"
 	"github.com/sirupsen/logrus"
+	"strings"
 
+	imagev1API "github.com/openshift/api/image/v1"
+	imagev1 "github.com/openshift/client-go/image/clientset/versioned/typed/image/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/client-go/rest"
 
 	"github.com/heptio/velero/pkg/apis/velero/v1"
 	"github.com/heptio/velero/pkg/backup"
@@ -54,9 +61,40 @@ func (p *ImageStreamBackupPlugin) Execute(item runtime.Unstructured, backup *v1.
 
 	annotations["openshift.io/imagestream-plugin"] = "1"
 
-	metadata.SetAnnotations(annotations)
+	im := imagev1API.ImageStream{}
+	obj := item.UnstructuredContent()
+	mapstructure.Decode(obj, &im)
+	p.log.Info(fmt.Sprintf("image: %#v", im.Status))
+	dockerRepo := im.Status.DockerImageRepository
 
 	// Get associated image and export to scratch location
+	client, err := p.imageClient()
+	if err != nil {
+		return nil, nil, err
+	}
+	images, err := client.Images().List(metav1.ListOptions{})
+	if err != nil {
+		return nil, nil, err
+	}
+	for _, image := range images.Items {
+		repo := strings.Split(image.DockerImageReference, "@")[0]
+		if repo == dockerRepo {
+			annotations["openshift.io/dockerImageRepo"] = repo
+		}
+	}
+	metadata.SetAnnotations(annotations)
 
 	return item, nil, nil
+}
+
+func (p *ImageStreamBackupPlugin) imageClient() (*imagev1.ImageV1Client, error) {
+	config, err := rest.InClusterConfig()
+	if err != nil {
+		return nil, err
+	}
+	client, err := imagev1.NewForConfig(config)
+	if err != nil {
+		return nil, err
+	}
+	return client, nil
 }

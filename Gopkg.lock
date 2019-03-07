@@ -318,6 +318,14 @@
   revision = "a61a99592b77c9ba629d254a693acffaeb4b7e28"
 
 [[projects]]
+  digest = "1:a45ae66dea4c899d79fceb116accfa1892105c251f0dcd9a217ddc276b42ec68"
+  name = "github.com/mitchellh/mapstructure"
+  packages = ["."]
+  pruneopts = "NUT"
+  revision = "3536a929edddb9a5b34bd6861dc4a9647cb459fe"
+  version = "v1.1.2"
+
+[[projects]]
   digest = "1:2f42fa12d6911c7b7659738758631bec870b7e9b4c6be5444f963cdcfccc191f"
   name = "github.com/modern-go/concurrent"
   packages = ["."]
@@ -332,6 +340,29 @@
   pruneopts = "NUT"
   revision = "4b7aa43c6742a2c18fdef89dd197aaae7dac7ccd"
   version = "1.0.1"
+
+[[projects]]
+  digest = "1:499a35c3c4b709b45574715f89d84b526ce28a24e77d2947048c99c4419ffba1"
+  name = "github.com/openshift/api"
+  packages = [
+    "image/docker10",
+    "image/dockerpre012",
+    "image/v1",
+  ]
+  pruneopts = "NUT"
+  revision = "0d921e363e951d89f583292c60d013c318df64dc"
+  version = "v3.9.0"
+
+[[projects]]
+  digest = "1:03f24e42f27df09290d7f97ea22cd57386f81cbffc0139d427a4bc5aacdc367e"
+  name = "github.com/openshift/client-go"
+  packages = [
+    "image/clientset/versioned/scheme",
+    "image/clientset/versioned/typed/image/v1",
+  ]
+  pruneopts = "NUT"
+  revision = "1fa528d3be060e4c7178eb69e76d37cf7e699e3c"
+  version = "v3.9.0"
 
 [[projects]]
   branch = "master"
@@ -717,9 +748,14 @@
     "github.com/heptio/velero/pkg/plugin",
     "github.com/heptio/velero/pkg/restore",
     "github.com/heptio/velero/pkg/util/collections",
+    "github.com/mitchellh/mapstructure",
+    "github.com/openshift/api/image/v1",
+    "github.com/openshift/client-go/image/clientset/versioned/typed/image/v1",
     "github.com/sirupsen/logrus",
     "k8s.io/apimachinery/pkg/api/meta",
+    "k8s.io/apimachinery/pkg/apis/meta/v1",
     "k8s.io/apimachinery/pkg/runtime",
+    "k8s.io/client-go/rest",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
